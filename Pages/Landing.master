@@ -1,0 +1,186 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Landing.master.cs" Inherits="Pages_Landing" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+    <title>Amazon</title>
+
+
+    <link rel="shortcut icon" type="image/png" href="/assets/FruitKha/assets/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <link href="/assets/FruitKha/assets/css/all.min.css" rel="stylesheet" />
+    <%--<link href="/assets/FruitKha/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />--%>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/owl.carousel.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/magnific-popup.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/animate.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/meanmenu.min.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/main.css" rel="stylesheet" />
+    <link href="/assets/FruitKha/assets/css/responsive.css" rel="stylesheet" />
+
+    <asp:ContentPlaceHolder ID="ContentHeader" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+    <style>
+        .sticky-wrapper.is-sticky .top-header-area {
+        padding:0px;
+        }
+        .footer-area {
+                padding: 15px 0;
+        }
+
+        .hero-area div.hero-text-tablecell {
+            height: 100vh;
+        }
+
+        .hero-text-tablecell {
+            display: table-cell !important;
+            vertical-align: middle;
+            /*width:100%;*/
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <!--PreLoader-->
+            <div class="loader">
+                <div class="loader-inner">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <!--PreLoader Ends-->
+
+            <!-- header -->
+            <div class="top-header-area" id="sticker">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 text-center">
+                            <div class="main-menu-wrap">
+                                <!-- logo -->
+                                <div class="site-logo">
+                                    <a href="/Pages/Dashboard.aspx">
+                                        <img src="/assets/images/logo-removebg.png" />
+                                    </a>
+                                </div>
+                                <!-- logo -->
+
+                                <!-- menu start -->
+                                <nav class="main-menu">
+                                    <ul>
+                                        <li class="current-list-item"><a href="/Pages/Landing.aspx">Home</a>
+                                        </li>
+                                        <li><a href="/Pages/Reg/BuyerRegistration.aspx">Register</a></li>
+                                        <li><a href="/Pages/Transaction/Login.aspx">Login</a></li>
+                                        <li><a href="/Pages/ShopItems.aspx">Shop</a></li>
+                                    </ul>
+                                </nav>
+                                    <div class=" tooltip mobile-menu "></div>
+                                <!-- menu end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end header -->
+
+            <!-- hero area -->
+           
+            <!-- end hero area -->
+
+            <asp:ContentPlaceHolder ID="ContentBody" runat="server">
+            </asp:ContentPlaceHolder>
+
+            <!-- footer -->
+            <div class="footer-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-box about-widget">
+                                <h2 class="widget-title">About us</h2>
+                                <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-box get-in-touch">
+                                <h2 class="widget-title">Get in Touch</h2>
+                                <ul>
+                                    <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                                    <li>support@fruitkha.com</li>
+                                    <li>+00 111 222 3333</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="footer-box pages">
+                                <h2 class="widget-title">Pages</h2>
+                                <ul>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="ShopItems.aspx">Shop</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <%--                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-box subscribe">
+                                <h2 class="widget-title">Subscribe</h2>
+                                <p>Subscribe to our mailing list to get the latest updates.</p>
+                                <div>
+                                    <input type="email" placeholder="Email">
+                                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>--%>
+                    </div>
+                </div>
+            </div>
+            <!-- end footer -->
+
+            <!-- copyright -->
+            <div class="copyright">
+                <div class="container">
+                    <div class="row">
+                        <%--                        <div class="col-lg-6 col-md-12">
+                            <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>,  All Rights Reserved.</p>
+                        </div>--%>
+                        <div class="col-lg-6 text-right col-md-12">
+                            <div class="social-icons">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/login/" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://twitter.com/i/flow/login" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.instagram.com/accounts/login/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/login" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                    <li><a href="https://dribbble.com/session/new" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end copyright -->
+            <script src="/assets/FruitKha/assets/js/jquery-1.11.3.min.js"></script>
+            <%--<script src="/assets/FruitKha/assets/bootstrap/js/bootstrap.min.js"></script>--%>
+            <script src="/assets/js/bootstrap.bundle.min.js"></script>
+            <script src="/assets/FruitKha/assets/js/jquery.countdown.js"></script>
+            <script src="/assets/FruitKha/assets/js/jquery.isotope-3.0.6.min.js"></script>
+            <script src="/assets/FruitKha/assets/js/waypoints.js"></script>
+            <script src="/assets/FruitKha/assets/js/owl.carousel.min.js"></script>
+            <script src="/assets/FruitKha/assets/js/jquery.magnific-popup.min.js"></script>
+            <script src="/assets/FruitKha/assets/js/jquery.meanmenu.min.js"></script>
+            <script src="/assets/FruitKha/assets/js/sticker.js"></script>
+            <script src="/assets/FruitKha/assets/js/main.js"></script>
+
+            <asp:ContentPlaceHolder ID="ContentFooter" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
