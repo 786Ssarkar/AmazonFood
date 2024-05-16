@@ -27,6 +27,7 @@ public partial class Transection_AddStock : System.Web.UI.Page
                 new DataColumn("TotalPurchaseAmount"), 
             });
             FillGrid(grdItems, dt);
+            FillTotalGrid();
         }
     }
     public void FillDDl(DropDownList ddl, string table, string id = "")
@@ -85,13 +86,11 @@ public partial class Transection_AddStock : System.Web.UI.Page
             grd.DataSource =dataTable;
             grd.DataBind();
         }
-        else
-        {
-            alertmsg("Table is Empty", "bg-warning");
-        }
         ViewState["grdItems"] = dataTable;
-
-
+    }
+    public void FillTotalGrid()
+    {
+        FillGrid(grdTotalStocks,(DataTable)ViewState["grdItems"]);
     }
     protected void alertmsg(string msg, string bgcolor)
     {
@@ -129,6 +128,10 @@ public partial class Transection_AddStock : System.Web.UI.Page
                         if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                         {
                             alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
+                            btnSaveAll.Visible = false;
+                            grdItems.DataSource = null;
+                            grdItems.DataBind();
+                            FillTotalGrid();
                         }
                         else
                         {
@@ -148,9 +151,6 @@ public partial class Transection_AddStock : System.Web.UI.Page
             }
         }
     }
-    protected void txtQuantity_TextChanged(object sender, EventArgs e)
-    {
-        txtTotalAmount.Text = GetTotal(new[] { txtPurchaseAmount.Text, txtQuantity.Text });
-    }
+    
 }
 

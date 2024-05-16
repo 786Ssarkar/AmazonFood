@@ -71,14 +71,6 @@
                         <asp:RegularExpressionValidator ErrorMessage="Only English letters" ForeColor="Red" Display="Dynamic" ValidationExpression="^[a-zA-Z ]{3,30}$" ValidationGroup="a" ControlToValidate="txtItemName" runat="server" />
                         <asp:RequiredFieldValidator ErrorMessage="Item Name is Required" ForeColor="Red" Display="Dynamic" ValidationGroup="a" ControlToValidate="txtItemName" runat="server" />
                     </div>
-                    <%-- <div class="col-md-4 ">
-                        <label for="txtItemCode">
-                            Item Code
-                        </label>
-                        <asp:TextBox runat="server" ID="txtItemCode" placeholder="Enter Item Code" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                        <asp:RegularExpressionValidator ErrorMessage="Invalid" ForeColor="Red" Display="Dynamic" ValidationExpression="^[a-zA-Z]{3,30}$" ValidationGroup="a" ControlToValidate="txtItemNme" runat="server" />
-                        <asp:RequiredFieldValidator ErrorMessage="Item Code is Required" ForeColor="Red" Display="Dynamic" ValidationGroup="a" ControlToValidate="txtItemNme" runat="server" />
-                    </div>--%>
                     <div class="col-md-4 mt-4">
                         <asp:Button runat="server" CssClass="btn btn-success" Text="Add" ID="btnAdd" OnClick="btnAdd_Click" />
                         <a class=" btn btn-warning" role="button" href="ItemMaster.aspx">Clear</a>

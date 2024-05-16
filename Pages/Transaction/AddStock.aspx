@@ -80,15 +80,13 @@
                     <div class="col-md-3 mb-3">
                         <label>Quantity</label>
                         <span style="color: red">*</span>
-                        <asp:TextBox runat="server" ID="txtQuantity" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtQuantity_TextChanged" placeholder="Enter Quantity" AutoComplete="off"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtQuantity" CssClass="form-control" placeholder="Enter Quantity" AutoComplete="off"></asp:TextBox>
                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtQuantity" ErrorMessage="Please Enter Quantity" ForeColor="Red" Display="Dynamic" ValidationGroup="a"> </asp:RequiredFieldValidator>
                         <asp:RangeValidator runat="server" ControlToValidate="txtQuantity" ErrorMessage="Quantity Should be in Range of 1 to  10000" ForeColor="Red" Display="Dynamic" ValidationGroup="a" MinimumValue="1" MaximumValue="10000" Type="Integer" />
                     </div>
                     <div class="col-md-3 mb-3">
                         <label>Total Amount</label>
-                        <%--<span style="color: red">*</span>--%>
                         <asp:TextBox runat="server" ID="txtTotalAmount" ReadOnly="true" CssClass="form-control" disabled="true" placeholder="Total Amount" AutoComplete="off"></asp:TextBox>
-                       <%-- <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTotalPurchaseAmount" ErrorMessage="Please Enter Total Purchase Amount" ForeColor="Red" Display="Dynamic" ValidationGroup="a"> </asp:RequiredFieldValidator>--%>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -97,81 +95,58 @@
                         <a href="AddStock.aspx" class="btn btn-warning  btn-rounded">Clear</a>
                     </div>
                 </div>
-                 <div class="row mt-4">
-                     <div class="col-12">
-                         <asp:GridView runat="server" ID="grdItems" AutoGenerateColumns="true" CssClass="table table-responsive">
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <asp:GridView runat="server" ID="grdItems" AutoGenerateColumns="true" CssClass="table table-responsive">
 
-                         </asp:GridView>
-                     </div>
-                     <div class="col-12 text-center">
-                         <asp:Button Text="Save All" runat="server" ID="btnSaveAll"  OnClick="btnSaveAll_Click" CssClass=" btn btn-success btn-rounded" Visible="false"/>
-                     </div>
-                     
-                 </div>
+                        </asp:GridView>
+                    </div>
+                    <div class="col-12 text-center">
+                       <asp:Button Text="Save All" runat="server" ID="btnSaveAll" OnClick="btnSaveAll_Click" CssClass=" btn btn-success btn-rounded" Visible="false" />
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <asp:GridView runat="server" ID="grdTotalStocks" CssClass="table table-responsive">
+                            
+
+                        </asp:GridView>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentFooter" runat="Server">
+    <script>
+        function getTotal(inputArray) {
+            // Loop through inputArray to get values and multiply
+            let total = 1;
+            for (let i = 0; i < inputArray.length; i++) {
+                const number = parseFloat(inputArray[i]);
+                if (isNaN(number) || number === 0) {
+                    return null;
+                }
+                total *= number;
+            }
+            return total;
+        }
+        document.getElementById('<%= txtQuantity.ClientID %>').addEventListener('input', updateTotal);
+        document.getElementById('<%=txtPurchaseAmount.ClientID%>').addEventListener('input', updateTotal);
 
-    <%-- <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/FruitKha/assets/bootstrap/js/bootstrap.min.js"></script>--%>
+      
+        function updateTotal() {
+            if (document.getElementById('<%= txtQuantity.ClientID %>').value > 0 && document.getElementById('<%=txtPurchaseAmount.ClientID%>').value>9 ) {
 
-
-    <%--<script>
-         debugger;
-         !function ($) {
-             "use strict";
-             var SweetAlert = function () { };
-             //examples
-             SweetAlert.prototype.init = function () {
-                 //Basic
-                 //Success Message
-                 $('.Alert-Save').click(function () {
-                     Swal.fire({
-                         title: 'Are you sure?',
-                         text: "Do you want to Send this record ?",
-                         type: 'warning',
-                         showCancelButton: true,
-                         confirmButtonColor: '#3085D6',
-                         cancelButtonColor: '#d33',
-                         confirmButtonText: 'Yes'
-                         // animation: false,
-                         // customClass: {
-                         //     popup: 'animated tada'
-                         // }
-                     }).then((result) => {
-                         if (result.value) {
-                             Swal.fire({
-                                 type: 'success',
-                                 title: 'Success!',
-                                 text: 'Record Send Successfully!',
-                                 timer: 2000
-                                 // animation: false,
-                                 // customClass: {
-                                 //     popup: 'animated tada'
-                                 // }
-                             }
-                             )
-                             var x = document.getElementById("EmployeeDetails2");
-                             if (x.style.display === "none") {
-                                 x.style.display = "block";
-                             } else {
-                                 x.style.display = "block";
-                             }
-                         }
-                     })
-                 });
-             },
-                 //init
-                 $.SweetAlert = new SweetAlert, $.SweetAlert.Constructor = SweetAlert
-         }(window.jQuery),
-             //initializing
-             function ($) {
-                 "use strict";
-                 $.SweetAlert.init()
-             }(window.jQuery);
-     </script>--%>
+            document.getElementById('<%= txtTotalAmount.ClientID %>').value = getTotal([document.getElementById('<%= txtQuantity.ClientID %>').value, document.getElementById('<%=txtPurchaseAmount.ClientID%>').value]);
+            } else {
+                document.getElementById('<%= txtTotalAmount.ClientID %>').value = null;
+            }
+           
+        }
+    </script>
+  
 </asp:Content>
 
