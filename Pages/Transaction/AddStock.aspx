@@ -3,6 +3,25 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Contenthead" runat="Server">
     <%--<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">--%>
     <style>
+       /* body::-webkit-scrollbar {
+            margin-top:2px;
+            margin-bottom:2px;
+            width: 10px;
+            background-color: #F5F5F5;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background-color: #3366FF;
+            border-radius: 10px;
+            background-image: -webkit-linear-gradient(0deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%, transparent)
+        }
+
+        body::-webkit-scrollbar-button {
+            background: #265b70;
+           
+            border-radius: 50%;
+        }
+*/
         .card-header {
             margin: 0px;
             width: 100%;
@@ -91,25 +110,87 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-5 text-center">
-                        <asp:Button runat="server" CausesValidation="true" ValidationGroup="a" ID="BtnAddStock" Text="ADD" BorderStyle="Solid" type="button" class=" btn btn-success btn-rounded"  OnClick="BtnAddStock_Click"/>
+                        <asp:Button runat="server" CausesValidation="true" ValidationGroup="a" ID="BtnAddStock" Text="ADD" BorderStyle="Solid" type="button" class=" btn btn-success btn-rounded" OnClick="BtnAddStock_Click" />
                         <a href="AddStock.aspx" class="btn btn-warning  btn-rounded">Clear</a>
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-12">
-                        <asp:GridView runat="server" ID="grdItems" AutoGenerateColumns="true" CssClass="table table-responsive">
+                    <div class="col-12 table-responsive">
+                        <asp:GridView runat="server" ID="grdItems" AutoGenerateColumns="false" CssClass="table ">
+                            <Columns>
+                                <asp:TemplateField HeaderText="Sr. No.">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Container.DataItemIndex+1 %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Name">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("ItemName") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Purchasing Amount">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("PurchaseAmount") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Total Quantity">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("TotalPurchaseQty") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Total Amount">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("TotalPurchaseAmount") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                            </Columns>
 
                         </asp:GridView>
                     </div>
                     <div class="col-12 text-center">
-                       <asp:Button Text="Save All" runat="server" ID="btnSaveAll" OnClick="btnSaveAll_Click" CssClass=" btn btn-success btn-rounded" Visible="false" />
+                        <asp:Button Text="Save All" runat="server" ID="btnSaveAll" OnClick="btnSaveAll_Click" CssClass=" btn btn-success btn-rounded" Visible="false" />
                     </div>
 
                 </div>
                 <div class="row mt-4">
-                    <div class="col">
-                        <asp:GridView runat="server" ID="grdTotalStocks" CssClass="table table-responsive">
-                            
+                    <div class="col table-responsive">
+                        <asp:GridView runat="server" ID="grdTotalStocks" AutoGenerateColumns="false" CssClass="table ">
+                            <Columns>
+                                <asp:TemplateField HeaderText="Sr. No.">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Container.DataItemIndex+1 %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Name">
+
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("ItemName") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Purchasing Amount">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("PurchaseAmount") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Total Quantity">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("TotalPurchaseQty") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Total Amount">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("TotalPurchaseAmount") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Added on">
+                                    <ItemTemplate>
+                                        <asp:Label Text='<%# Eval("CreatedOn") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+
+                            </Columns>
 
                         </asp:GridView>
                     </div>
@@ -136,17 +217,17 @@
         document.getElementById('<%= txtQuantity.ClientID %>').addEventListener('input', updateTotal);
         document.getElementById('<%=txtPurchaseAmount.ClientID%>').addEventListener('input', updateTotal);
 
-      
-        function updateTotal() {
-            if (document.getElementById('<%= txtQuantity.ClientID %>').value > 0 && document.getElementById('<%=txtPurchaseAmount.ClientID%>').value>9 ) {
 
-            document.getElementById('<%= txtTotalAmount.ClientID %>').value = getTotal([document.getElementById('<%= txtQuantity.ClientID %>').value, document.getElementById('<%=txtPurchaseAmount.ClientID%>').value]);
+        function updateTotal() {
+            if (document.getElementById('<%= txtQuantity.ClientID %>').value > 0 && document.getElementById('<%=txtPurchaseAmount.ClientID%>').value > 9) {
+
+                document.getElementById('<%= txtTotalAmount.ClientID %>').value = getTotal([document.getElementById('<%= txtQuantity.ClientID %>').value, document.getElementById('<%=txtPurchaseAmount.ClientID%>').value]);
             } else {
                 document.getElementById('<%= txtTotalAmount.ClientID %>').value = null;
             }
-           
+
         }
     </script>
-  
+
 </asp:Content>
 

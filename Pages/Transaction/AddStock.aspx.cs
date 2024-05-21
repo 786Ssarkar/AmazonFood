@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
+using System.Data.SqlTypes;
+using System.Globalization;
+using System.Web.DynamicData;
 
 public partial class Transection_AddStock : System.Web.UI.Page
 {
@@ -19,16 +22,21 @@ public partial class Transection_AddStock : System.Web.UI.Page
         if (!IsPostBack)
         {
             FillDDl(ddlItem, "Item");
-            DataTable dt = new DataTable();
-            dt.Columns.AddRange(new[] { 
-                new DataColumn("ItemId"), 
-                new DataColumn("PurchaseAmount"), 
-                new DataColumn("TotalPurchaseQty"), 
-                new DataColumn("TotalPurchaseAmount"), 
-            });
-            FillGrid(grdItems, dt);
+            FillGrid(grdItems, CreateDT());
             FillTotalGrid();
         }
+    }
+    public DataTable CreateDT()
+    {
+        DataTable dt = new DataTable();
+        dt.Columns.AddRange(new[] {
+                new DataColumn("ItemId",typeof(int)),
+                new DataColumn("ItemName",typeof(string)),
+                new DataColumn("PurchaseAmount",typeof(decimal)),
+                new DataColumn("TotalPurchaseQty", typeof(int)),
+                new DataColumn("TotalPurchaseAmount", typeof(decimal)),
+            });
+        return dt;
     }
     public void FillDDl(DropDownList ddl, string table, string id = "")
     {
@@ -67,30 +75,52 @@ public partial class Transection_AddStock : System.Web.UI.Page
 
         using (DataTable dt = (DataTable)ViewState["grdItems"])
         {
-            var cells = new[]
-            {
-            ddlItem.SelectedValue,
-            txtPurchaseAmount.Text,
-            txtQuantity.Text,
-            total
-        };
-            dt.Rows.Add(cells);
+            dt.Rows.Add(Convert.ToInt32(ddlItem.SelectedValue), ddlItem.SelectedItem.Text, Convert.ToDecimal(txtPurchaseAmount.Text), Convert.ToInt32(txtQuantity.Text), Convert.ToDecimal(total)
+        );
+
             FillGrid(grdItems, dt);
             btnSaveAll.Visible = true;
+
+            ddlItem.ClearSelection();
+            txtPurchaseAmount.Text = "";
+            txtTotalAmount.Text = "";
+            txtQuantity.Text = "";
         }
     }
     public void FillGrid(GridView grd, DataTable dataTable)
     {
         if (dataTable.Rows.Count > 0)
         {
-            grd.DataSource =dataTable;
+            grd.DataSource = dataTable;
             grd.DataBind();
         }
         ViewState["grdItems"] = dataTable;
     }
     public void FillTotalGrid()
     {
-        FillGrid(grdTotalStocks,(DataTable)ViewState["grdItems"]);
+        using (SqlDataAdapter adpt = new SqlDataAdapter("Usptrn_GetItemStock", Connstr))
+        {
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+            adpt.SelectCommand.Parameters.AddWithValue("@SalerId", Convert.ToString(Session["Id"]));
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds != null)
+            {
+                if (ds.Tables.Count > 1)
+                {
+
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        grdTotalStocks.DataSource = ds.Tables[0];
+                        grdTotalStocks.DataBind();
+                    }
+                }
+                else
+                {
+                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-warning");
+                }
+            }
+        }
     }
     protected void alertmsg(string msg, string bgcolor)
     {
@@ -100,7 +130,7 @@ public partial class Transection_AddStock : System.Web.UI.Page
         sb.Append(" alert-dismissible fade show\" role=\"alert\">");
         sb.Append(msg);
         sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
-        //sb.Append("<span aria-hidden=\"true\">&times;</span>");
+
         sb.Append("</button>");
         sb.Append("</div> ");
         divAlert.InnerHtml += sb.ToString();
@@ -113,14 +143,19 @@ public partial class Transection_AddStock : System.Web.UI.Page
         {
             adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
             adpt.SelectCommand.Parameters.Clear();
+            DataTable dt = (DataTable)ViewState["grdItems"];
+            dt.Columns.Remove("ItemName");
+
             adpt.SelectCommand.Parameters.AddRange(new[] {
-                    new SqlParameter("@type_Stocks",ViewState["grdItems"]),
+                    new SqlParameter("@type_Stocks",dt),
                     new SqlParameter("@CreatedByIp",Request.UserHostAddress),
                     new SqlParameter("@CreatedBy",Convert.ToString( Session["Id"])),
-            }); ;
+            });
+
             using (DataSet ds = new DataSet())
             {
                 adpt.Fill(ds);
+                dt.Columns.Add("ItemName", typeof(string)).SetOrdinal(1);
                 if (ds.Tables.Count > 0)
                 {
                     if (ds.Tables[0].Rows.Count > 0)
@@ -132,6 +167,7 @@ public partial class Transection_AddStock : System.Web.UI.Page
                             grdItems.DataSource = null;
                             grdItems.DataBind();
                             FillTotalGrid();
+                            ViewState["grdItems"] = CreateDT();
                         }
                         else
                         {
@@ -151,6 +187,6 @@ public partial class Transection_AddStock : System.Web.UI.Page
             }
         }
     }
-    
+
 }
 

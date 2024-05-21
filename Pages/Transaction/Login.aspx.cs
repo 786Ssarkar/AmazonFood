@@ -18,6 +18,12 @@ public partial class Pages_Login : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         divAlert.InnerHtml = "";
+
+
+        if (!IsPostBack)
+        {
+            Session.Abandon();
+        }
     }
     public static string HashPassword(string password)
     {
@@ -26,9 +32,9 @@ public partial class Pages_Login : System.Web.UI.Page
     }
 
     protected void btnLogin_Click(object sender, EventArgs e)
-    
+
     {
-        string msg="", bgcolor="";
+        string msg = "", bgcolor = "";
         if (Page.IsValid)
         {
 
@@ -78,7 +84,7 @@ public partial class Pages_Login : System.Web.UI.Page
                             }
                             else
                             {
-                                msg ="Unknown User Type";
+                                msg = "Unknown User Type";
                                 bgcolor = "bg-warning";
                             }
                         }
