@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Pages/Amazon.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Pages_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Contenthead" runat="Server">
-    <style>
+    <%--<style>
         .highcharts-figure,
         .highcharts-data-table table {
             min-width: 320px;
@@ -44,25 +44,64 @@
         .highcharts-data-table tr:hover {
             background: #f1f7ff;
         }
-    </style>
+    </style>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentBody" runat="Server">
 
 
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-10">
+
+                    <asp:DropDownList runat="server" ID="ddlSession" CssClass="form-select">
+                    </asp:DropDownList>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <label>Text To Convert</label>
+                    <asp:TextBox runat="server" ID="txtTextToConert" CssClass="form-control" />
+                </div>
+
+                <div class="col-2">
+                    <asp:Button Text="genrate" runat="server" OnClick="btnGenrate_Click" ID="btnGenrate" />
+
+                </div>
+
+                <div class="col-12">
+                    <label>Converted as QR</label>
+                    <asp:Image CssClass="img-thumbnail" runat="server" ID="img" Visible="false" Height="500" Width="500" />
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>--%>
 
 
 
-    <figure class="highcharts-figure">
+    <%--  <figure class="highcharts-figure">
         <div id="container"></div>
         <p class="highcharts-description">
             Pie charts demo showing how to create a custom entrance animation.
         </p>
-    </figure>
-    <div runat="server" id="divsrc">
+    </figure>--%>
+
+
+
+
+
+    <%--<div runat="server" id="divsrc">
         <script>
             (function (H)
             {
@@ -168,7 +207,7 @@
                 });
 
         </script>
-    </div>
+    </div>--%>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentFooter" runat="Server">
 </asp:Content>
